@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 builder.Services.AddDbContext<DataContext>(opt =>
-opt.UseInMemoryDatabase("Testdb"));
+opt.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
