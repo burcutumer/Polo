@@ -1,0 +1,33 @@
+services:
+  polo-pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 5050:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: tumer@tumer
+
+  polo-postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secretpass
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 2s
+      retries: 5
+      start_period: 5s
+
+  interpol:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5309:8080
+    depends_on:
+      polo-postgres:
+          condition: service_healthy
+    restart: unless-stopped

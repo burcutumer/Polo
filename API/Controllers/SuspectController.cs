@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using API.Data;
 using API.Data.Domain;
 using API.Data.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
@@ -41,6 +41,8 @@ namespace API.Controllers
 
         }
 
+
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult<Suspect>> AddSuspect(CreateSuspectDto dto)
         {
@@ -65,7 +67,6 @@ namespace API.Controllers
             }
 
         }
-
 
     }
 }
